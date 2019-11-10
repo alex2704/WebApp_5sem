@@ -10,7 +10,7 @@ class DB:
             password='',
             db='car_service',
             charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor)
+            cursorclass=DictCursor)
 
     def get_clients(self):
         with self.__con:
