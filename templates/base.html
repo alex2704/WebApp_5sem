@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Автосервисный центр</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Клиенты <span class="sr-only">(current)</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Автомобили</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Обращения</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Ремонтные работы</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Сотрудники</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Должности</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{% endblock %}
+<div class="container">
+    {% block content%}
+    {% endblock %}
+</div>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>
