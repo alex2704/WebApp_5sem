@@ -22,6 +22,31 @@ def delete_client():
         db.delete_client(cur_stud)
         return redirect('/index')
 
+
+@app.route('/addClient')
+def show_form_add_client():
+    return render_template('addClient.html')
+
+
+@app.route('/addClient', methods=['POST'])
+def add_client():
+    # try:
+        if request.form['addClient'] == "Подтвердить":
+            name = request.form['name']
+            processed_text_name = name.upper()
+            phone = request.form['phone']
+            processed_text_phone = phone.upper()
+            surname = request.form['surname']
+            processed_text_surname = surname.upper()
+            patronymic = request.form['patronymic']
+            processed_text_patronymic = patronymic.upper()
+            db.add_client(processed_text_name, processed_text_surname,
+                          processed_text_patronymic, processed_text_phone)
+            return redirect('/index')
+    # except Exception as e:
+    #     return "Произошла ошибка"
+
+
 if __name__ == "__main__":
     app.run()
 

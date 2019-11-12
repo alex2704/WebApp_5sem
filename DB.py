@@ -25,4 +25,10 @@ class DB:
             sql = "DELETE FROM CLIENTS WHERE ID ='"+id+"'"
             cur.execute(sql)
 
+    def add_client(self, name, surname, patronymic, phone):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = [name, surname, patronymic, phone]
+            sql = 'INSERT INTO CLIENTS (name, surname, patronymic, phone) VALUES(%s, %s, %s, %s)'
+            cur.execute(sql, data)
 

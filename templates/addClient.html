@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Добавить клиента{% endblock %}
+{% block content %}
+<h1 class="text-center">Оставить заявку</h1>
+<form method="POST">
+  <div class="form-group">
+    <label>Ваше имя*</label>
+    <input name="name" class="form-control" placeholder="Введите ваше имя" required="">
+  </div>
+  <div class="form-group">
+    <label>Ваш контактный номер*</label>
+    <input name="phone" class="form-control" placeholder="Введите ваше имя" required="">
+  </div>
+  <div class="form-group">
+    <label>Ваша фамилия</label>
+    <input name="surname" class="form-control" required="">
+  </div>
+  <div class="form-group">
+    <label>Ваше отчество</label>
+    <input name="patronymic" class="form-control" required="">
+    <small class="form-text text-muted">Мы гарантируем конфиденциальность ваших данных</small>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Подтвердить" name="addClient"/>
+</form>
+{% endblock %}

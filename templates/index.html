@@ -20,10 +20,11 @@
             <th>
             <form method="POST">
                 <input type="hidden" value="{{data[i]['id']}}" name="indexDeleted">
-                <input  class="btn btn-secondary" type="submit" value="Удалить" name="deleteClient"/>
+                <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteClient"/>
             </form>
             </th>
         </tr>
         {% endfor %}
         </tbody>
-    </table>{% endblock %}
+    </table>
+{% endblock %}
