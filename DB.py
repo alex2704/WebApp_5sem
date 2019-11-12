@@ -32,3 +32,25 @@ class DB:
             sql = 'INSERT INTO CLIENTS (name, surname, patronymic, phone) VALUES(%s, %s, %s, %s)'
             cur.execute(sql, data)
 
+    def show_cars(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "SELECT * FROM cars WHERE ID_OWNER ='" + id + "'"
+            cur.execute(sql)
+            data = cur.fetchall()
+            return data
+
+    def delete_car(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "DELETE FROM CARS WHERE CAR_NUMBER ='" + id + "'"
+            cur.execute(sql)
+
+    def add_car(self, number, id, mark, issue_date):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = [number, id, mark, issue_date]
+            sql = 'INSERT INTO CARS (CAR_NUMBER, ID_OWNER, MODEL, ISSUE_DATE) VALUES(%s, %s, %s, %s)'
+            cur.execute(sql, data)
+
+

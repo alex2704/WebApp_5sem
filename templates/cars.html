@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Автомобили{% endblock %}
+{% block content %}
+<h1 class="text-center">Добавить автомобиль</h1>
+<form method="POST" action="{{url_for('add_car', id=id)}}">
+  <div class="form-group">
+    <label>Номер авто*</label>
+    <input name="number" class="form-control" placeholder="Введите номер авто" required="">
+  </div>
+  <div class="form-group">
+    <label>Марка*</label>
+    <input name="mark" class="form-control" placeholder="Введите марку авто" required="">
+  </div>
+  <div class="form-group">
+    <label>Дата выпуска авто*</label>
+    <input type="date" name="issue_date" class="form-control" required="">
+  </div>
+  <input type="submit" class="btn btn-primary" value="Подтвердить" name="addCar"/>
+</form>
+<br />
+<table class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+                <th>Телефон</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in range(len) %}
+        <tr>
+            <th>{{data[i]['car_number']}}</th>
+            <th>{{data[i]['model']}}</th>
+            <th>{{data[i]['issue_date']}}</th>
+            <th>
+            <form method="POST" action="{{url_for('del_car', id=data[i]['car_number'])}}">
+                <input type="hidden" value="{{data[i]['id_owner']}}" name="indexDeleted">
+                <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteCar"/>
+            </form>
+            </th>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+{% endblock %}

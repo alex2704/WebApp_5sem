@@ -17,11 +17,12 @@
             <th>{{data[i]['surname']}}</th>
             <th>{{data[i]['patronymic']}}</th>
             <th>{{data[i]['phone']}}</th>
-            <th>
-            <form method="POST">
+            <th class="d-flex justify-content-between">
+            <form method="POST" class="d-inline-block">
                 <input type="hidden" value="{{data[i]['id']}}" name="indexDeleted">
                 <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteClient"/>
             </form>
+                <a href="{{url_for('show_client', id=data[i]['id'])}}" class="d-inline-block">Подробее</a>
             </th>
         </tr>
         {% endfor %}
