@@ -11,13 +11,18 @@
             </tr>
         </thead>
         <tbody>
-        {% for i in range(1, len) %}
+        {% for i in range(len) %}
         <tr>
             <th>{{data[i]['name']}}</th>
             <th>{{data[i]['surname']}}</th>
             <th>{{data[i]['patronymic']}}</th>
             <th>{{data[i]['phone']}}</th>
-            <th><button>Удалить</button></th>
+            <th>
+            <form method="POST">
+                <input type="hidden" value="{{data[i]['id']}}" name="indexDeleted">
+                <input  class="btn btn-secondary" type="submit" value="Удалить" name="deleteClient"/>
+            </form>
+            </th>
         </tr>
         {% endfor %}
         </tbody>

@@ -19,3 +19,10 @@ class DB:
             result = cur.fetchall()
             return result
 
+    def delete_client(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "DELETE FROM CLIENTS WHERE ID ='"+id+"'"
+            cur.execute(sql)
+
+
