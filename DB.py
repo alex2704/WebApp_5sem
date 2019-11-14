@@ -53,4 +53,30 @@ class DB:
             sql = 'INSERT INTO CARS (CAR_NUMBER, ID_OWNER, MODEL, ISSUE_DATE) VALUES(%s, %s, %s, %s)'
             cur.execute(sql, data)
 
+    def get_employees(self):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT e.* FROM employees e')
+            result = cur.fetchall()
+            return result
+
+    def delete_employee(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "DELETE FROM EMPLOYEES WHERE ID ='"+id+"'"
+            cur.execute(sql)
+
+    def add_employee(self, name, surname, patronymic, birth_date, address, phone, id_position, work_time, prize):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = [name, surname, patronymic, birth_date, address, phone, id_position, work_time, prize]
+            sql = 'INSERT INTO employees (name, surname, patronymic, birth_date, address, phone_number, id_position, work_time, prize) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+            cur.execute(sql, data)
+
+    def get_all_positions(self):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT p.* FROM position p')
+            result = cur.fetchall()
+            return result
 

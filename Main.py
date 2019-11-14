@@ -79,6 +79,42 @@ def add_client():
     #     return "Произошла ошибка"
 
 
+@app.route('/employees')
+def show_employees():
+    employees = db.get_employees()
+    positions = db.get_all_positions()
+    return render_template('employees.html', data=employees, len=len(employees), type_positions=positions,
+                           lenp=len(positions))
+
+
+@app.route('/employees', methods=['POST'])
+def delete_employee():
+    if request.form['deleteEmployee'] == "Удалить":
+        cur_empl = request.form['indexDeleted']
+        db.delete_employee(cur_empl)
+        return redirect('/employees')
+
+
+@app.route('/add_employee', methods=['POST'])
+def add_employee():
+    if request.form['addEmployee'] == "Подтвердить":
+        name = request.form['name']
+        surname = request.form['surname']
+        patronymic = request.form['patronymic']
+        born_date = request.form['born_date']
+        check = CheckHelper.check_true_date(born_date)
+        address = request.form['address']
+        phone = request.form['phone']
+        id_position = request.form['position']
+        work_time = request.form['work_time']
+        prize = request.form['prize']
+        if check:
+            birth = CheckHelper.get_date_from_str(born_date)
+            db.add_employee(name, surname, patronymic, birth, address, phone, id_position, work_time, prize)
+        else:
+            return "Введенная дата не верна"
+        return redirect(url_for('show_employees'))
+
 if __name__ == "__main__":
     app.run()
 
