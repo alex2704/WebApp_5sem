@@ -7,6 +7,7 @@ app.config['DEBUG'] = True
 db = DB()
 
 
+# отобразить всех клиентов
 @app.route('/')
 @app.route('/index')
 def show_clients():
@@ -14,13 +15,14 @@ def show_clients():
     return render_template('index.html', data=clients, len=len(clients))
 
 
-# отобразитб машины у данного клиента
+# отобразить машины у данного клиента
 @app.route('/client/<id>')
 def show_client(id):
     data = db.show_cars(id)
-    return render_template('cars.html', id=id, data=data, len=len(data), )
+    return render_template('cars.html', id=id, data=data, len=len(data))
 
 
+# удалить машину у данного клиента
 @app.route('/delete_car/<id>', methods=['POST'])
 def del_car(id):
     id_owner = request.form['indexDeleted']
@@ -28,6 +30,7 @@ def del_car(id):
     return redirect(url_for('show_client', id=id_owner))
 
 
+# Добавить машину клиенту
 @app.route('/add_car/<id>', methods=['POST'])
 def add_car(id):
     if request.form['addCar'] == "Подтвердить":
@@ -55,11 +58,13 @@ def delete_client():
         return redirect('/index')
 
 
+# Показать форму где можно добавить клиента
 @app.route('/addClient')
 def show_form_add_client():
     return render_template('addClient.html')
 
 
+# Добавить клиента
 @app.route('/addClient', methods=['POST'])
 def add_client():
     # try:
@@ -79,6 +84,7 @@ def add_client():
     #     return "Произошла ошибка"
 
 
+# отобразить всех сотрудников
 @app.route('/employees')
 def show_employees():
     employees = db.get_employees()
@@ -87,6 +93,7 @@ def show_employees():
                            lenp=len(positions))
 
 
+# удалить сотрудника
 @app.route('/employees', methods=['POST'])
 def delete_employee():
     if request.form['deleteEmployee'] == "Удалить":
@@ -95,6 +102,7 @@ def delete_employee():
         return redirect('/employees')
 
 
+# добавить сотрдуника
 @app.route('/add_employee', methods=['POST'])
 def add_employee():
     if request.form['addEmployee'] == "Подтвердить":
@@ -114,6 +122,49 @@ def add_employee():
         else:
             return "Введенная дата не верна"
         return redirect(url_for('show_employees'))
+
+
+# отобразить форму для изменение клиента
+@app.route("/change_client/<id>")
+def change_client(id):
+    data = db.get_value('clients', 'id', id)
+    names = list(data[0].keys())
+    # db.change_value('clients', 'surname', val, 'id', id)
+    return render_template('updateClient.html', data=data, len=len(data[0]), names=names)
+
+
+# вносит изменение в клиента
+@app.route("/change_client/<id>", methods=['POST'])
+def set_client(id):
+    if request.form['changeClient'] == "Изменить":
+        param = request.form['param']
+        set = request.form['set']
+        db.change_value('clients', param, set, 'id', id)
+    return redirect(url_for("change_client", id=id))
+
+
+# отобразить форму для изменения авто
+@app.route("/change_car/<number>")
+def change_car(number):
+    data = db.get_value('cars', 'car_number', number)
+    names = list(data[0].keys())
+    names.remove('id_owner')
+    return render_template('updateCar.html', data=data, len=len(data[0]) - 1, names=names)
+
+
+@app.route("/change_car/<number>", methods=['POST'])
+def set_car(number):
+    if request.form['changeCar'] == "Изменить":
+        param = request.form['param']
+        set = request.form['set']
+        if param == 'issue_date':
+            check = CheckHelper.check_true_date(set)
+            if check:
+                set = CheckHelper.get_date_from_str(set)
+            else:
+                return redirect(url_for("change_car", number=number))
+        db.change_value('cars', param, set, 'car_number', number)
+    return redirect(url_for("change_car", number=number))
 
 if __name__ == "__main__":
     app.run()

@@ -80,3 +80,18 @@ class DB:
             result = cur.fetchall()
             return result
 
+    # изменить значение ячейки
+    def change_value(self, table, cell, value, name_identificator, identificator):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "UPDATE " + table + " SET " + cell + "= %s WHERE " + name_identificator + " = %s"
+            val = (value, identificator)
+            cur.execute(sql, val)
+
+    def get_value(self, table, name_identificator, identificator):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT * FROM ' + table + ' WHERE ' + name_identificator + " = '" + identificator + "'")
+            result = cur.fetchall()
+            return result
+

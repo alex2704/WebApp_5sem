@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Автосервисный центр{% endblock %}
+{% block content %}
+<h2 class="text-center mt-3">Изменение данных авто</h2>
+<table class="table table-striped table-bordered mt-5" style="width:100%">
+        <thead>
+            <tr>
+                <th>Номер</th>
+                <th>Марка</th>
+                <th>Дата выпуска</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>{{data[0]['car_number']}}</th>
+            <th>{{data[0]['model']}}</th>
+            <th>{{data[0]['issue_date']}}</th>
+        </tr>
+        <tr>
+            <th></th>
+            {% for i in range(1, len) %}
+            <th>
+            <form method="POST">
+                {% if names[i] == "model" %}
+                <input name="set" class="form-control" placeholder="Изменить" required="">
+                {% else %}
+                <input type="date" name="set" class="form-control" placeholder="Изменить" required="">
+                {% endif %}
+                <input name="param" class="form-control" type="hidden" value="{{names[i]}}">
+                <br />
+                <input  class="btn btn-outline-secondary" type="submit" value="Изменить" name="changeCar"/>
+            </form>
+                </th>
+                {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

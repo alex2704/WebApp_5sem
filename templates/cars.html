@@ -33,10 +33,11 @@
             <th>{{data[i]['model']}}</th>
             <th>{{data[i]['issue_date']}}</th>
             <th>
-            <form method="POST" action="{{url_for('del_car', id=data[i]['car_number'])}}">
+            <form method="POST" action="{{url_for('del_car', id=data[i]['car_number'])}}" class="d-inline-block">
                 <input type="hidden" value="{{data[i]['id_owner']}}" name="indexDeleted">
                 <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteCar"/>
             </form>
+                <a href="{{url_for('change_car', number=data[i]['car_number'])}}" class="d-inline-block btn btn-outline-secondary">Изменить</a>
             </th>
         </tr>
         {% endfor %}
