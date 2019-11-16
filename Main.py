@@ -428,7 +428,10 @@ def add_repair_form():
         if session['priveleges']:
             appeals = db.get_all_appeals()
             employees = db.get_employees()
-            return render_template('addRepairWork.html', employee=employees, lene=len(employees), appeal=appeals, lena=len(appeals))
+            repair_works = db.get_all_repair_works()
+            return render_template('addRepairWork.html',repair=repair_works,
+                                   employee=employees, lene=len(employees), appeal=appeals, lena=len(appeals),
+                                   lenr = len(repair_works))
     else:
         redirect('/index')
 

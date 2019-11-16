@@ -232,3 +232,10 @@ class DB:
                 return result
             else:
                 return 0
+
+    def get_all_repair_works(self):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT r.* FROM repair_works r')
+            result = cur.fetchall()
+            return result

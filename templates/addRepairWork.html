@@ -25,4 +25,23 @@
   </div>
   <input type="submit" class="btn btn-primary" value="Подтвердить" name="addRepair"/>
 </form>
+<h2>Список всех ремонтных работ</h2>
+<table class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Номер обращения</th>
+                <th>Название детали</th>
+                <th>Номер детали</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in range(lenr) %}
+        <tr>
+            <th>{{repair[i]['appeal_number']}}</th>
+            <th>{{repair[i]['detail_name']}}</th>
+            <th>{{repair[i]['detail_number']}}</th>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
 {% endblock %}
