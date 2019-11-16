@@ -13,11 +13,7 @@
 </head>
 <body>
 {% block nav %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Автосервисный центр</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light pl-5">
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -55,6 +51,12 @@
         {% if session['priveleges'] %}
         <li class="nav-item">
         <a class="nav-link" href="/add_repair">Добавить ремонтные работы</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/check_appeals">Посмотреть кол-во обращений</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/check_repairs">Кол-во ремонтных работ</a>
       </li>
         {% endif %}
     </ul>

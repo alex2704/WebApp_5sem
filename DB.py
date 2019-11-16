@@ -208,3 +208,27 @@ class DB:
             sql = 'INSERT INTO repair_works (appeal_number, id_employee, detail_name, detail_number) VALUES(%s, %s, %s, %s)'
             cur.execute(sql, data)
 
+    def get_appeal_period(self, client_id):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT c.* FROM cars c WHERE id_owner = %s', (client_id, ))
+            car = cur.fetchall()
+            result = 0
+            if car:
+                for i in range(len(car)):
+                    car_number = car[i]['car_number']
+                    cur.execute('SELECT a.* FROM appeals a WHERE car_number = %s', (car_number, ))
+                    result += cur.rowcount
+                return result
+            else:
+                return 0
+
+    def get_repair_period(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT r.* FROM repair_works r WHERE id_employee = %s', (id, ))
+            result = cur.rowcount
+            if result:
+                return result
+            else:
+                return 0

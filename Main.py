@@ -254,7 +254,10 @@ def car_info(number):
             # repair_works_list = list()
             # for i in range(len(appeals)):
             #     repair_works_list.append(db.get_repair_works(appeals[i]['appeal_number']))
-            repair_works = db.get_repair_works(appeals[0]['appeal_number'])
+            try:
+                repair_works = db.get_repair_works(appeals[0]['appeal_number'])
+            except Exception as e:
+                return "Для данной машины обращений не найдено"
             return render_template('car_info.html', data=appeals, len=len(appeals), repair=repair_works, lenr=len(repair_works))
     else:
         return redirect('/index')
@@ -411,10 +414,9 @@ def change_appeal(id):
 def set_appeal(id):
     if session:
         if session['priveleges']:
-            if request.form['changeAppeal'] == "Изменить":
-                param = request.form['param']
-                set = request.form['set']
-                db.change_value('appeals', param, set, 'appeal_number', id)
+            param = request.form['param']
+            set = request.form['set']
+            db.change_value('appeals', param, set, 'appeal_number', id)
             return redirect(url_for("change_appeal", id=id))
     else:
         return redirect('/index')
@@ -444,6 +446,31 @@ def add_repair():
     else:
         redirect('/index')
 
+
+@app.route('/check_appeals')
+def check_appeals():
+    if session:
+        if session['priveleges']:
+            clients = db.get_clients()
+            dict = list()
+            for i in range(len(clients)):
+                dict.append(db.get_appeal_period(clients[i]['id']))
+            return render_template('ClientAppeals.html', data=clients, len=len(clients), per=dict)
+    else:
+        redirect('/index')
+
+
+@app.route('/check_repairs')
+def check_repairs():
+    if session:
+        if session['priveleges']:
+            employees = db.get_employees()
+            dict = list()
+            for i in range(len(employees)):
+                dict.append(db.get_repair_period(employees[i]['id']))
+            return render_template('repairWorks.html', data=employees, len=len(employees), rep=dict)
+    else:
+        redirect('/index')
 
 
 if __name__ == "__main__":
