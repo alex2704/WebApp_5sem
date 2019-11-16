@@ -269,6 +269,47 @@ def set_position(id):
     return redirect(url_for("change_position", id=id))
 
 
+@app.route('/appeals')
+def show_appeals():
+    data = db.show_appeals()
+    cars = db.get_all_cars()
+    return render_template('appeals.html', data=data, len=len(data), cars=cars, lencars=len(cars))
+
+
+@app.route('/add_appeal', methods=['POST'])
+def add_appeal():
+    if request.form['addAppeal'] == "Подтвердить":
+        car_number = request.form['car_number']
+        fault = request.form['fault']
+        db.add_appeal(car_number, fault)
+        return redirect('/appeals')
+
+
+@app.route('/del_appeal/<id>', methods=['POST'])
+def del_appeal(id):
+    if request.form['deleteAppeal'] == "Удалить":
+        cur_pos = request.form['indexDeleted']
+        db.delete_appeal(cur_pos)
+        return redirect('/appeals')
+
+
+@app.route('/change_appeal/<id>')
+def change_appeal(id):
+    data = db.get_value('appeals', 'appeal_number', id)
+    cars = db.get_all_cars()
+    names = list(data[0].keys())
+    return render_template('updateAppeal.html', data=data, len=len(data[0]), names=names, cars=cars, lencars=len(cars))
+
+@app.route("/change_appeal/<id>", methods=['POST'])
+def set_appeal(id):
+    if request.form['changeAppeal'] == "Изменить":
+        param = request.form['param']
+        set = request.form['set']
+        db.change_value('appeals', param, set, 'appeal_number', id)
+    return redirect(url_for("change_appeal", id=id))
+
+
+
 if __name__ == "__main__":
     app.secret_key = "2704#!AlexBakulin)"
     app.run()

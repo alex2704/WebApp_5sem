@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Обращения{% endblock %}
+{% block content %}
+<h1 class="text-center">Добавить обращение</h1>
+<form method="POST" action="{{url_for('add_appeal')}}">
+  <div class="form-group">
+    <label>Номер автомобиля*</label>
+      <select name="car_number" required="" class="form-control">
+          {% for i in range(lencars) %}
+          <option value="{{cars[i]['car_number']}}">{{cars[i]['car_number']}}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div class="form-group">
+    <label>Неисправность*</label>
+      <textarea name="fault" class="form-control" placeholder="Расскажите о неисправности" required=""></textarea>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Подтвердить" name="addAppeal"/>
+</form>
+<br />
+<table class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Номер авто</th>
+                <th>Неисправность</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in range(len) %}
+        <tr>
+            <th>{{data[i]['car_number']}}</th>
+            <th>{{data[i]['fault']}}</th>
+            <th>
+            <form method="POST" action="{{url_for('del_appeal', id=data[i]['appeal_number'])}}" class="d-inline-block">
+                <input type="hidden" value="{{data[i]['appeal_number']}}" name="indexDeleted">
+                <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteAppeal"/>
+            </form>
+                <a href="{{url_for('change_appeal', id=data[i]['appeal_number'])}}" class="d-inline-block btn btn-outline-secondary">Изменить</a>
+            </th>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+{% endblock %}
