@@ -40,6 +40,20 @@ class DB:
             result = cur.fetchall()
             return result
 
+    def search_client(self, surname):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT c.* FROM clients c WHERE surname = %s', (surname, ))
+            result = cur.fetchall()
+            return result
+
+    def search_client_n(self, name, patronymic):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT c.* FROM clients c WHERE name = %s and patronymic = %s', (name, patronymic))
+            result = cur.fetchall()
+            return result
+
     def delete_client(self, id):
         with self.__con:
             cur = self.__con.cursor()
@@ -165,3 +179,32 @@ class DB:
             cur = self.__con.cursor()
             sql = "DELETE FROM appeals WHERE appeal_number = %s"
             cur.execute(sql, (id, ))
+
+    def get_appeal_car(self, number):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT c.* FROM appeals c WHERE car_number= %s', (number, ))
+            result = cur.fetchall()
+            return result
+
+    def get_repair_works(self, appeal_number):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT c.* FROM repair_works c WHERE appeal_number= %s', (appeal_number, ))
+            result = cur.fetchall()
+            return result
+
+    def get_all_appeals(self):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT a.* FROM appeals a')
+            result = cur.fetchall()
+            return result
+
+    def add_repair(self, id, phone, detail_name, detail_number):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = [id, phone, detail_name, detail_number]
+            sql = 'INSERT INTO repair_works (appeal_number, id_employee, detail_name, detail_number) VALUES(%s, %s, %s, %s)'
+            cur.execute(sql, data)
+

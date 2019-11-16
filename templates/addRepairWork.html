@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Добавить ремонтные работы{% endblock %}
+{% block content %}
+<h1 class="text-center">Добавить ремонтные работы</h1>
+<form method="POST" action="{{url_for('add_repair')}}">
+    <label>id обращения*</label>
+    <select name="appeal_number" class="form-control" required="">
+            {% for i in range(0 ,lena) %}
+            <option value="{{appeal[i]['appeal_number']}}">{{appeal[i]['appeal_number']}}</option>
+            {% endfor %}
+        </select>
+    <label>Телефонный номер работника*</label>
+    <select name="id_employee" class="form-control" required="">
+            {% for i in range(0 ,lene) %}
+            <option value="{{employee[i]['id']}}">{{employee[i]['phone_number']}}</option>
+            {% endfor %}
+        </select>
+  <div class="form-group">
+    <label>Название детали*</label>
+    <input name="detail_name" class="form-control" placeholder="Введите название детали" required="">
+  </div>
+  <div class="form-group">
+    <label>Номер детали*</label>
+    <input name="detail_number" class="form-control" placeholder="Введите номер детали" required="">
+  </div>
+  <input type="submit" class="btn btn-primary" value="Подтвердить" name="addRepair"/>
+</form>
+{% endblock %}

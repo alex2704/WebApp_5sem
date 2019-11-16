@@ -54,6 +54,21 @@ def show_clients():
     return render_template('index.html', data=clients, len=len(clients))
 
 
+@app.route('/search_surname_client', methods=['POST'])
+def search_surname_client():
+    surname = request.form['search']
+    data = db.search_client(surname)
+    return render_template('index.html', data=data, len=len(data))
+
+
+@app.route('/search_name_client', methods=['POST'])
+def search_name_client():
+    name = request.form['name']
+    patronimyc = request.form['patronymic']
+    data = db.search_client_n(name, patronimyc)
+    return render_template('index.html', data=data, len=len(data))
+
+
 # отобразить машины у данного клиента
 @app.route('/client/<id>')
 def show_client(id):
@@ -116,7 +131,7 @@ def delete_client():
 @app.route('/addClient')
 def show_form_add_client():
     if session:
-        if session['priveleges']:
+        if session['name']:
             return render_template('addClient.html')
     else:
         return redirect('/index')
@@ -228,7 +243,21 @@ def change_car(number):
             names.remove('id_owner')
             return render_template('updateCar.html', data=data, len=len(data[0]) - 1, names=names)
     else:
-        redirect('/index')
+        return redirect('/index')
+
+
+@app.route('/car_information/<number>')
+def car_info(number):
+    if session:
+        if session['priveleges']:
+            appeals = db.get_appeal_car(number)
+            # repair_works_list = list()
+            # for i in range(len(appeals)):
+            #     repair_works_list.append(db.get_repair_works(appeals[i]['appeal_number']))
+            repair_works = db.get_repair_works(appeals[0]['appeal_number'])
+            return render_template('car_info.html', data=appeals, len=len(appeals), repair=repair_works, lenr=len(repair_works))
+    else:
+        return redirect('/index')
 
 
 # изменить авто
@@ -389,6 +418,31 @@ def set_appeal(id):
             return redirect(url_for("change_appeal", id=id))
     else:
         return redirect('/index')
+
+
+@app.route('/add_repair')
+def add_repair_form():
+    if session:
+        if session['priveleges']:
+            appeals = db.get_all_appeals()
+            employees = db.get_employees()
+            return render_template('addRepairWork.html', employee=employees, lene=len(employees), appeal=appeals, lena=len(appeals))
+    else:
+        redirect('/index')
+
+
+@app.route('/add_repair', methods=['POST'])
+def add_repair():
+    if session:
+        if session['priveleges']:
+            id = request.form['appeal_number']
+            phone = request.form['id_employee']
+            detail_name = request.form['detail_name']
+            detail_number = request.form['detail_number']
+            db.add_repair(id, phone, detail_name, detail_number)
+            return redirect('/add_repair')
+    else:
+        redirect('/index')
 
 
 

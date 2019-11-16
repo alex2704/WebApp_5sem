@@ -38,6 +38,7 @@
                 <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteCar"/>
             </form>
                 <a href="{{url_for('change_car', number=data[i]['car_number'])}}" class="d-inline-block btn btn-outline-secondary">Изменить</a>
+                <a href="{{url_for('car_info', number=data[i]['car_number'])}}" class="d-inline-block btn btn-outline-secondary">Подробнее</a>
             </th>
         </tr>
         {% endfor %}
