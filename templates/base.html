@@ -52,9 +52,11 @@
         <li class="nav-item">
         <a class="nav-link" href="/positions">Должности</a>
       </li>
+        {% if session['priveleges'] %}
         <li class="nav-item">
         <a class="nav-link" href="/add_repair">Добавить ремонтные работы</a>
       </li>
+        {% endif %}
     </ul>
   </div>
 </nav>
