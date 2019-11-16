@@ -1,10 +1,48 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 from DB import DB
 from CheckHelper import CheckHelper
+import bcrypt
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 db = DB()
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template("register.html")
+    else:
+        name = request.form['username']
+        password = request.form['password'].encode('utf-8')
+        hash_pass = bcrypt.hashpw(password, bcrypt.gensalt())
+        db.add_user(name, hash_pass)
+        session['name'] = name
+        return redirect('/index')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        name = request.form['username']
+        password = request.form['password'].encode('utf-8')
+        user = db.login(name, password)
+        if user:
+            if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
+                session['name'] = user['username']
+                return redirect('/index')
+            else:
+                return "Error password or user don't match"
+        else:
+            return "Error password or user don't match"
+    else:
+        return render_template("login.html")
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/index')
 
 
 # отобразить всех клиентов
@@ -166,6 +204,8 @@ def set_car(number):
         db.change_value('cars', param, set, 'car_number', number)
     return redirect(url_for("change_car", number=number))
 
+
 if __name__ == "__main__":
+    app.secret_key = "2704#!AlexBakulin)"
     app.run()
 

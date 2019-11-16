@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Автосервисный центр{% endblock %}
+{% block content %}
+	<div class="log-box">
+		<h2>Вход</h2>
+		<form method="POST" action="/login">
+			<div class="log-inputBox">
+				<input type="text" name="username" required="">
+				<label>Логин</label>
+			</div>
+			<div class="log-inputBox">
+				<input type="password" name="password" required="">
+				<label>Пароль</label>
+			</div>
+			<input type="submit" name="" value="Войти">
+			<a href="index.php" class="btn btn-a-login">Регистрация</a>
+		</form>
+	</div>
+{% endblock %}

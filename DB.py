@@ -12,6 +12,19 @@ class DB:
             charset='utf8mb4',
             cursorclass=DictCursor)
 
+    def add_user(self, name, password):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = (name, password, 0)
+            cur.execute('INSERT into users (username, password, rules) VALUES (%s, %s, %s)', data)
+
+    def login(self, name, password):
+        with self.__con:
+            cur = self.__con.cursor()
+            cur.execute('SELECT * FROM users WHERE username=%s', (name,))
+            user = cur.fetchone()
+            return user
+
     def get_clients(self):
         with self.__con:
             cur = self.__con.cursor()
