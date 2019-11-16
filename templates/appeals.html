@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Обращения{% endblock %}
 {% block content %}
-<h1 class="text-center">Добавить обращение</h1>
+<h2 class="text-center mt-3">Наши обращения</h2>
+{% if session['priveleges'] == 1 %}
 <form method="POST" action="{{url_for('add_appeal')}}">
   <div class="form-group">
     <label>Номер автомобиля*</label>
@@ -18,6 +19,7 @@
   <input type="submit" class="btn btn-primary" value="Подтвердить" name="addAppeal"/>
 </form>
 <br />
+{% endif %}
 <table class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -30,6 +32,7 @@
         <tr>
             <th>{{data[i]['car_number']}}</th>
             <th>{{data[i]['fault']}}</th>
+            {% if session['priveleges'] == 1 %}
             <th>
             <form method="POST" action="{{url_for('del_appeal', id=data[i]['appeal_number'])}}" class="d-inline-block">
                 <input type="hidden" value="{{data[i]['appeal_number']}}" name="indexDeleted">
@@ -37,6 +40,7 @@
             </form>
                 <a href="{{url_for('change_appeal', id=data[i]['appeal_number'])}}" class="d-inline-block btn btn-outline-secondary">Изменить</a>
             </th>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
