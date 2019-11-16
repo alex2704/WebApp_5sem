@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Автосервисный центр{% endblock %}
+{% block content %}
+<h2 class="text-center mt-3">Изменение данных должности</h2>
+<table class="table table-striped table-bordered mt-5" style="width:100%">
+        <thead>
+            <tr>
+                <th>Должность</th>
+                <th>Зарплата</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>{{data[0]['position']}}</th>
+            <th>{{data[0]['salary']}}</th>
+        </tr>
+        <tr>
+            {% for i in range(1, len) %}
+            <th>
+            <form method="POST">
+                <input name="set" class="form-control" placeholder="Изменить" required="">
+                <input name="param" class="form-control" type="hidden" value="{{names[i]}}">
+                <br />
+                <input  class="btn btn-outline-secondary" type="submit" value="Изменить" name="changePosition"/>
+            </form>
+                </th>
+                {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

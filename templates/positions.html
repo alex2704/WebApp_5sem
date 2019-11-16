@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Должности{% endblock %}
+{% block content %}
+<h1 class="text-center">Добавить должность</h1>
+<form method="POST" action="{{url_for('add_position')}}">
+  <div class="form-group">
+    <label>Название должности*</label>
+    <input name="position" class="form-control" placeholder="Введите название должности" required="">
+  </div>
+  <div class="form-group">
+    <label>Зарплата</label>
+    <input name="salary" class="form-control" placeholder="Введите зарплату" required="">
+  </div>
+  <input type="submit" class="btn btn-primary" value="Подтвердить" name="addPosition"/>
+</form>
+<br />
+<table class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Должность</th>
+                <th>Зарплата</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in range(len) %}
+        <tr>
+            <th>{{data[i]['position']}}</th>
+            <th>{{data[i]['salary']}}</th>
+            <th>
+            <form method="POST" action="{{url_for('del_position', id=data[i]['id'])}}" class="d-inline-block">
+                <input type="hidden" value="{{data[i]['id']}}" name="indexDeleted">
+                <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deletePosition"/>
+            </form>
+                <a href="{{url_for('change_position', id=data[i]['id'])}}" class="d-inline-block btn btn-outline-secondary">Изменить</a>
+            </th>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
+{% endblock %}

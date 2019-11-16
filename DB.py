@@ -108,3 +108,26 @@ class DB:
             result = cur.fetchall()
             return result
 
+    # POSITION
+    def add_position(self, position, salary):
+        with self.__con:
+            cur = self.__con.cursor()
+            data = [position, salary]
+            sql = 'INSERT INTO position (position, salary) VALUES(%s, %s)'
+            cur.execute(sql, data)
+
+    def show_positions(self):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "SELECT * FROM position"
+            cur.execute(sql)
+            data = cur.fetchall()
+            return data
+
+    def delete_position(self, id):
+        with self.__con:
+            cur = self.__con.cursor()
+            sql = "DELETE FROM position WHERE ID ='" + id + "'"
+            cur.execute(sql)
+
+

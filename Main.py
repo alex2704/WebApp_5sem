@@ -230,6 +230,45 @@ def set_employee(id):
     return redirect(url_for("change_employee", id=id))
 
 
+@app.route('/positions')
+def show_positions():
+    data = db.show_positions()
+    return render_template('positions.html', data=data, len=len(data))
+
+
+@app.route('/add_position', methods=['POST'])
+def add_position():
+    if request.form['addPosition'] == "Подтвердить":
+        position = request.form['position']
+        salary = request.form['salary']
+        db.add_position(position, salary)
+        return redirect('/positions')
+
+
+@app.route('/del_position/<id>', methods=['POST'])
+def del_position(id):
+    if request.form['deletePosition'] == "Удалить":
+        cur_pos= request.form['indexDeleted']
+        db.delete_position(cur_pos)
+        return redirect('/positions')
+
+
+@app.route('/change_position/<id>')
+def change_position(id):
+    data = db.get_value('position', 'id', id)
+    names = list(data[0].keys())
+    return render_template('updatePosition.html', data=data, len=len(data[0]), names=names)
+
+
+@app.route("/change_position/<id>", methods=['POST'])
+def set_position(id):
+    if request.form['changePosition'] == "Изменить":
+        param = request.form['param']
+        set = request.form['set']
+        db.change_value('position', param, set, 'id', id)
+    return redirect(url_for("change_position", id=id))
+
+
 if __name__ == "__main__":
     app.secret_key = "2704#!AlexBakulin)"
     app.run()
