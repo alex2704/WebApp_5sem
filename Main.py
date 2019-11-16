@@ -190,6 +190,7 @@ def change_car(number):
     return render_template('updateCar.html', data=data, len=len(data[0]) - 1, names=names)
 
 
+# изменить авто
 @app.route("/change_car/<number>", methods=['POST'])
 def set_car(number):
     if request.form['changeCar'] == "Изменить":
@@ -203,6 +204,30 @@ def set_car(number):
                 return redirect(url_for("change_car", number=number))
         db.change_value('cars', param, set, 'car_number', number)
     return redirect(url_for("change_car", number=number))
+
+
+# отобразить форму для изменения сотрудника
+@app.route("/change_employee/<id>")
+def change_employee(id):
+    data = db.get_value('employees', 'id', id)
+    names = list(data[0].keys())
+    names.remove('id_position')
+    return render_template('updateEmployee.html', data=data, len=len(data[0]) - 1, names=names)
+
+
+@app.route("/change_employee/<id>", methods=['POST'])
+def set_employee(id):
+    if request.form['changeEmployee'] == "Изменить":
+        param = request.form['param']
+        set = request.form['set']
+        if param == 'birth_date':
+            check = CheckHelper.check_true_date(set)
+            if check:
+                set = CheckHelper.get_date_from_str(set)
+            else:
+                return redirect(url_for("change_employee", id=id))
+        db.change_value('employees', param, set, 'id', id)
+    return redirect(url_for("change_employee", id=id))
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 {% block content %}
 <div>
 <h2 class="text-center">Здесь вы можете добавить сотрудника</h2>
-<form method="POST" action="{{url_for('add_employee')}}">
+<form method="POST" action="{{url_for('add_employee')}}" class="container">
   <div class="form-group">
     <label>Имя*</label>
     <input name="name" class="form-control" placeholder="Введите имя сотрудника" required="">
@@ -74,10 +74,11 @@
             <th>{{data[i]['work_time']}}</th>
             <th>{{data[i]['prize']}}</th>
             <th class="d-flex justify-content-between">
-            <form method="POST" class="d-inline-block">
+            <form method="POST">
                 <input type="hidden" value="{{data[i]['id']}}" name="indexDeleted">
                 <input  class="btn btn-outline-secondary" type="submit" value="Удалить" name="deleteEmployee"/>
             </form>
+                <a href="{{url_for('change_employee', id=data[i]['id'])}}" class="btn btn-outline-secondary">Изменить</a>
             </th>
         </tr>
         {% endfor %}
